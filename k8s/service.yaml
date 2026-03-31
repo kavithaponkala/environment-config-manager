@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-manager-service
+  labels:
+    app: config-manager
+spec:
+  selector:
+    app: config-manager
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
+  type: LoadBalancer

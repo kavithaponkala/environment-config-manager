@@ -1,0 +1,11 @@
+{
+  "name": "environment-config-manager",
+  "version": "1.0.0",
+  "description": "DevOps configuration management application",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev"
+  }
+}

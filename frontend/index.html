@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environment Configuration Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔧 Environment Configuration Manager</h1>
+      <p>Manage configurations across environments</p>
+    </header>
+
+    <div class="main-content">
+      <!-- Environment Selector -->
+      <section class="selector-section">
+        <label for="environment">Select Environment:</label>
+        <select id="environment">
+          <option value="">-- Choose Environment --</option>
+          <option value="development">Development</option>
+          <option value="testing">Testing</option>
+          <option value="production">Production</option>
+        </select>
+        <button onclick="loadConfigs()">Load Configs</button>
+      </section>
+
+      <!-- Current Environment Display -->
+      <section class="config-display" id="configDisplay" style="display: none;">
+        <h2>Configurations: <span id="envName"></span></h2>
+        <div class="configs-list" id="configsList"></div>
+      </section>
+
+      <!-- Add New Config -->
+      <section class="add-config-section">
+        <h3>Add New Configuration</h3>
+        <div class="form-group">
+          <input type="text" id="configKey" placeholder="Key (e.g., DATABASE_URL)">
+          <input type="text" id="configValue" placeholder="Value (e.g., localhost:5432)">
+          <button onclick="addConfig()">Add Config</button>
+        </div>
+      </section>
+
+      <!-- Status Messages -->
+      <div id="message" class="message"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

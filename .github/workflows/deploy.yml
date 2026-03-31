@@ -1,0 +1,38 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm install
+    
+    - name: Build Docker image
+      run: |
+        docker build -f docker/Dockerfile -t config-app:${{ github.sha }} .
+    
+    - name: Run tests
+      run: |
+        echo "Running tests..."
+        # Add your test commands here
+    
+    - name: Push to registry
+      run: |
+        echo "Docker image built: config-app:${{ github.sha }}"
+        # Add docker push commands when ready

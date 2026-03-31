@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-manager
+  labels:
+    app: config-manager
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: config-manager
+  template:
+    metadata:
+      labels:
+        app: config-manager
+    spec:
+      containers:
+      - name: config-manager
+        image: config-app:latest
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: app-config
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
