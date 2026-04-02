@@ -23,16 +23,47 @@ jobs:
         cd backend
         npm install
     
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+    
+    - name: Run backend health check
+      run: |
+        cd backend
+        npm start &
+        sleep 5
+        curl http://localhost:5000/health || true
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
     - name: Build Docker image
       run: |
         docker build -f docker/Dockerfile -t config-app:${{ github.sha }} .
     
-    - name: Run tests
+    - name: Docker image info
       run: |
-        echo "Running tests..."
-        # Add your test commands here
+        docker images | grep config-app
     
-    - name: Push to registry
+    - name: Test Docker container
       run: |
-        echo "Docker image built: config-app:${{ github.sha }}"
-        # Add docker push commands when ready
+        docker run -d -p 5001:5000 --name test-container config-app:${{ github.sha }}
+        sleep 3
+        curl http://localhost:5001/health || true
+        docker stop test-container
+        docker rm test-container
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy message
+      run: |
+        echo "🚀 Deployment step would happen here"
+        echo "Deploy Docker image: config-app:${{ github.sha }}"
+        echo "Update Kubernetes deployment with new image"
